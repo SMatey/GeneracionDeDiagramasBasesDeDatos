@@ -15,11 +15,11 @@ export const Body = () => {
                 <form>
                     <div>
                         <label htmlFor="host">Host</label>
-                        <input className='form_input' type='text' placeholder='Host' id="host"></input>
+                        <input className='form_input' type='text' placeholder='127.0.0.1' id="host"></input>
                     </div>
                     <div>
                         <label htmlFor="port">Port</label>
-                        <input className='form_input' type='number' placeholder='Port' id="port"></input>
+                        <input className='form_input' type='number' placeholder='3306' id="port"></input>
                     </div>
                     <div>
                         <label htmlFor="user">User Name</label>
@@ -35,7 +35,7 @@ export const Body = () => {
                     </div>
 
                     <div className="form_input">
-                        <label>Tipo de Base de Datos
+                        <label>Data Base Type
                             <select className="type-of-db">
                                 <option value="MySQL">MySQL</option>
                                 <option value="Postgres">PostgreSQL</option>
@@ -46,7 +46,7 @@ export const Body = () => {
 
                     <div className='form_input' id='update'>
                         <button type='submit'>
-                            Actualizar
+                            Update
                         </button>
                     </div>
                 </form>
