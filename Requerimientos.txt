@@ -1,0 +1,6 @@
+Flask
+psycopg2
+mysql-connector-python
+pyodbc
+requests
+flask-cors
