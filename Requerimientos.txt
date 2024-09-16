@@ -1,0 +1,7 @@
+Flask==2.3.2               # Framework web para crear APIs
+requests==2.31.0           # Para realizar solicitudes HTTP al servidor PlantUML
+psycopg2==2.9.6            # Para conectarse a bases de datos PostgreSQL
+mysql-connector-python==8.0.33  # Para conectarse a bases de datos MySQL
+pyodbc==4.0.39             # Para conectarse a bases de datos SQL Server
+ 
+			   #para instalar automáticamente todo usar -> pip install -r requirements.txt
