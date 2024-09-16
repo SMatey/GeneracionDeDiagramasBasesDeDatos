@@ -1,9 +1,34 @@
 import { useState } from 'react';
-import PropTypes from 'prop-types';
 
 export const Body = () => {
     //=============REQUIRED FUNCTIONS=================
+    const [diagramUrl, setDiagramUrl] = useState(null);
 
+    //Creamos la funcion que se envia la data al backend despues de oprimir el boton de actualizar
+    const handleSubmit = async (e) => {
+        e.preventDefault();  // Prevenir el comportamiento predeterminado del formulario
+
+        // Capturamos los valores de los inputs usando sus ids
+        const formData = {
+            host: document.getElementById('host').value,
+            port: parseInt(document.getElementById('port').value, 10), // Convertir a número
+            user: document.getElementById('user').value,
+            password: document.getElementById('password').value,
+            dbName: document.getElementById('dbName').value,
+            tipoBaseDatos: document.getElementById('tipoBaseDatos').value
+        };
+
+        try {
+            const response = await axios.post('http://localhost:8000/generate-diagram', formData, {
+                responseType: 'blob',
+            });
+
+            const imageUrl = URL.createObjectURL(response.data);
+            setDiagramUrl(imageUrl);  // Guardar la URL de la imagen para mostrarla
+        } catch (error) {
+            console.error('Error al generar el diagrama:', error);
+        }
+    };
 
     //=============HTML BODY=================
     //<!--Cambiar los placesHolder-->
@@ -12,7 +37,7 @@ export const Body = () => {
         <div className="container">
             <div className='BDData'>
                 <h2>Generador de diagramas</h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="host">Host</label>
                         <input className='form_input' type='text' placeholder='127.0.0.1' id="host"></input>
@@ -55,7 +80,11 @@ export const Body = () => {
             <div className='DiagramGenerate'>
                 <h2>Diagrama Generado</h2>
                 <div className='diagram-placeholder'>
-                    {/* Aquí se mostrará el diagrama */}
+                    {diagramUrl ? (
+                        <img src={diagramUrl} alt ="Diagrama Generado"/>
+                    ): (
+                        <p>No se genero ningun diagrama aun.</p>
+                    )}
                 </div>
             </div>
         </div>
