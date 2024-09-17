@@ -1,39 +1,38 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 export const Body = () => {
-    //=============REQUIRED FUNCTIONS=================
-    const [diagramUrl, setDiagramUrl] = useState(null);
+    const [diagramUrl, setDiagramUrl] = useState(null);  // Estado para almacenar la URL de la imagen generada
 
-    //Creamos la funcion que se envia la data al backend despues de oprimir el boton de actualizar
     const handleSubmit = async (e) => {
         e.preventDefault();  // Prevenir el comportamiento predeterminado del formulario
 
-        // Capturamos los valores de los inputs usando sus ids
+        // Recogemos los valores de los inputs
         const formData = {
             host: document.getElementById('host').value,
-            port: parseInt(document.getElementById('port').value, 10), // Convertir a número
+            port: parseInt(document.getElementById('port').value, 10),  // Convertir a número
             user: document.getElementById('user').value,
             password: document.getElementById('password').value,
             dbName: document.getElementById('dbName').value,
-            tipoBaseDatos: document.getElementById('tipoBaseDatos').value
+            tipo_base_datos: document.getElementById('tipo_base_datos').value
         };
-
+        console.log('Datos enviados:', formData);
         try {
-            const response = await axios.post('http://localhost:8000/generate-diagram', formData, {
-                responseType: 'blob',
+            // Realizar la solicitud POST al backend
+            const response = await axios.post('http://localhost:5000/generar_diagrama', formData, {
+                responseType: 'blob',  // Recibimos el archivo binario (imagen PNG)
             });
 
+            // Crear una URL para el blob de la imagen recibida
             const imageUrl = URL.createObjectURL(response.data);
             setDiagramUrl(imageUrl);  // Guardar la URL de la imagen para mostrarla
+
         } catch (error) {
             console.error('Error al generar el diagrama:', error);
         }
     };
 
-    //=============HTML BODY=================
-    //<!--Cambiar los placesHolder-->
     return (
-    <>
         <div className="container">
             <div className='BDData'>
                 <h2>Generador de diagramas</h2>
@@ -61,9 +60,9 @@ export const Body = () => {
 
                     <div className="form_input">
                         <label>Data Base Type
-                            <select className="type-of-db">
+                            <select className="type-of-db" id="tipo_base_datos">
                                 <option value="MySQL">MySQL</option>
-                                <option value="Postgres">PostgreSQL</option>
+                                <option value="Postgres">Postgres</option>
                                 <option value="SQLServer">SQL Server</option>
                             </select>
                         </label>
@@ -81,13 +80,12 @@ export const Body = () => {
                 <h2>Diagrama Generado</h2>
                 <div className='diagram-placeholder'>
                     {diagramUrl ? (
-                        <img src={diagramUrl} alt ="Diagrama Generado"/>
-                    ): (
-                        <p>No se genero ningun diagrama aun.</p>
+                        <img src={diagramUrl} alt="Diagrama Generado" style={{ width: '600px', height: 'auto' }} />
+                    ) : (
+                        <p>No se generó ningún diagrama aún.</p>
                     )}
                 </div>
             </div>
         </div>
-    </>
-    )
+    );
 }
