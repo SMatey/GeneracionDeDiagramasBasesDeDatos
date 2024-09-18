@@ -16,15 +16,15 @@ body {
 /* Estilos del formulario */
 .BDData {
     padding-top: 70px;
-    width: 40%; /* Asegura que el formulario ocupe el 40% del ancho */
-    background-color: #283747     ;
+    width: 40%;
+    background-color: #283747;
     padding: 20px;
     border-radius: 8px 0 0px 8px;
 }
 
 /* Estilos para el área del diagrama */
 .DiagramGenerate {
-    width: 55%; /* El área del diagrama ocupará el 55% */
+    width: 55%;
     background-color: #2c3e50;
     padding: 20px;
     border-radius: 0 8px 8px 0;
@@ -33,6 +33,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
 /* Placeholder para el diagrama */
@@ -41,13 +42,74 @@ body {
     height: 500px;
     border: 2px dashed #ddd;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     font-size: 1.2rem;
     color: #ddd;
+    position: relative;
 }
 
-/* Estilos generales */
+/* Asegurarse de que la imagen se ajuste bien */
+.diagram-placeholder img {
+    max-width: 100%;
+    max-height: 80%;
+    object-fit: contain;
+}
+
+/* Botones de navegación */
+.nav-buttons {
+    position: absolute;
+    bottom: 0; /* Posiciona los botones en la parte inferior del contenedor */
+    left: 0;
+    right: 0;
+    display: flex;
+    width: 100%;
+    height: 50px; /* Define la altura de los botones */
+}
+
+.nav-buttons button {
+    flex: 1; /* Los botones ocupan mitad y mitad del espacio disponible */
+    padding: 10px 0; /* Asegura el relleno vertical dentro de los botones */
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 0; /* Sin bordes redondeados */
+    cursor: pointer;
+    text-align: center;
+}
+
+.nav-buttons button:hover {
+    background-color: #0056b3;
+}
+
+.nav-buttons button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Estilo del botón de actualizar */
+#update button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+#update button:hover {
+    background-color: #0056b3;
+}
+
+#update button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+/* Ajustes generales */
 h2 {
     text-align: center;
     margin: 0;
@@ -74,7 +136,7 @@ form {
     padding: 6px 10px;
 }
 
-input, select, button {
+input, select {
     width: 100%;
     box-sizing: border-box;
     padding: 6px;
@@ -93,18 +155,4 @@ option {
 label {
     font-size: 0.88em;
     line-height: 2;
-}
-
-/* Botón */
-button {
-    padding: 10px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
 }
