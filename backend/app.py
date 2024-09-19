@@ -6,15 +6,15 @@ from plantuml import generar_codigo_plantuml, enviar_a_plantuml
 app = Flask(__name__)
 CORS(app)  # Habilitar CORS para todas las rutas
 
-@app.route('/generar_diagrama', methods=['POST'])
+@app.route('/generate-diagram', methods=['POST'])
 def generar_diagrama():
     # Obtener los datos de conexión enviados en el body
     data = request.json
     print(f"Datos recibidos: {data}")
 
-    tipo_base_datos = data.get('tipo_base_datos')
+    tipo_base_datos = data.get('tipoBaseDatos')
     host = data.get('host')
-    database = data.get('database')  # Base de datos que se va a utilizar
+    database = data.get('dbName')  # Base de datos que se va a utilizar
     user = data.get('user')
     password = data.get('password')
 
