@@ -60,21 +60,21 @@ body {
 /* Botones de navegación */
 .nav-buttons {
     position: absolute;
-    bottom: 0; /* Posiciona los botones en la parte inferior del contenedor */
+    bottom: 0;
     left: 0;
     right: 0;
     display: flex;
     width: 100%;
-    height: 50px; /* Define la altura de los botones */
+    height: 50px;
 }
 
 .nav-buttons button {
-    flex: 1; /* Los botones ocupan mitad y mitad del espacio disponible */
-    padding: 10px 0; /* Asegura el relleno vertical dentro de los botones */
+    flex: 1;
+    padding: 10px 0;
     background-color: #007bff;
     border: none;
     color: white;
-    border-radius: 0; /* Sin bordes redondeados */
+    border-radius: 0;
     cursor: pointer;
     text-align: center;
 }
@@ -108,6 +108,31 @@ body {
     background-color: #ccc;
     cursor: not-allowed;
 }
+
+/* Botón de descarga con solo el ícono */
+button.download-btn {
+    width: 40px; /* Tamaño pequeño y cuadrado */
+    height: 40px;
+    background-color: transparent; /* Sin fondo */
+    border: none; /* Sin bordes */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0; /* Sin padding para que el ícono se ajuste perfectamente */
+    transition: filter 0.3s ease; /* Transición suave al hacer hover */
+}
+
+button.download-btn img {
+    width: 100%; /* Asegura que el ícono ocupe todo el botón */
+    height: 100%;
+}
+
+button.download-btn:hover img {
+    filter: brightness(0.7); /* Oscurecer un poco el ícono en hover */
+}
+
+
 
 /* Ajustes generales */
 h2 {
@@ -155,4 +180,15 @@ option {
 label {
     font-size: 0.88em;
     line-height: 2;
+}
+
+.db-info {
+    margin-top: 10px;
+    background-color: transparent;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.db-info p {
+    margin: 5px 0;
 }

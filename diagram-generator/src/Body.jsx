@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import downloadIcon from './Icon/downloadIcon.svg';
+
 
 export const Body = () => {
-    const [imageUrls, setImageUrls] = useState([]);
+    const [diagrams, setDiagrams] = useState([]);  // Usamos un estado que guarda la URL y la información del diagrama
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
     const handleSubmit = async (e) => {
@@ -23,8 +25,21 @@ export const Body = () => {
             });
 
             const imageUrl = URL.createObjectURL(response.data);
-            setImageUrls((prevUrls) => [...prevUrls, imageUrl]);
-            setCurrentImageIndex(imageUrls.length);
+            
+            // Agregamos el nuevo diagrama (URL + información de la base de datos) al estado
+            setDiagrams((prevDiagrams) => [
+                ...prevDiagrams,
+                {
+                    imageUrl,  // La URL de la imagen
+                    host: formData.host,
+                    port: formData.port,
+                    user: formData.user,
+                    dbName: formData.dbName,
+                    tipoBaseDatos: formData.tipoBaseDatos,
+                }
+            ]);
+
+            setCurrentImageIndex(diagrams.length);  // Actualizamos el índice para mostrar el diagrama recién generado
 
         } catch (error) {
             console.error('Error al generar el diagrama:', error);
@@ -38,14 +53,14 @@ export const Body = () => {
     };
 
     const handleNextImage = () => {
-        if (currentImageIndex < imageUrls.length - 1) {
+        if (currentImageIndex < diagrams.length - 1) {
             setCurrentImageIndex(currentImageIndex + 1);
         }
     };
 
     const handleDownloadImage = () => {
         const link = document.createElement('a');
-        link.href = imageUrls[currentImageIndex];
+        link.href = diagrams[currentImageIndex].imageUrl;
         link.download = `diagram-${currentImageIndex + 1}.png`;
         document.body.appendChild(link);
         link.click();
@@ -55,7 +70,7 @@ export const Body = () => {
     return (
         <div className="container">
             <div className='BDData'>
-                <h2>Generador de diagramas</h2>
+                <h2>Diagrama Generator</h2>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <label htmlFor="host">Host</label>
@@ -93,31 +108,45 @@ export const Body = () => {
                             Update
                         </button>
                     </div>
-                    {imageUrls.length > 0 && (
-                        <button type="button" onClick={handleDownloadImage}>
-                            Descargar Imagen Actual
+                    {diagrams.length > 0 && (
+                        <button type="button" className="download-btn" onClick={handleDownloadImage}>
+                            <img src={downloadIcon} alt="Download Icon" style={{ width: '20px', marginRight: '8px' }} />
                         </button>
                     )}
                 </form>
             </div>
 
             <div className='DiagramGenerate'>
-                <h2>Diagrama Generado</h2>
+                <h2>Diagram Generated</h2>
+                <div className='diagram-info'>
+                    {diagrams.length > 0 && (
+                        <>
+                            {/* Mostrar la información de la base de datos correspondiente */}
+                            <div className="db-info">
+                                <p><strong>Host:</strong> {diagrams[currentImageIndex].host}</p>
+                                <p><strong>Port:</strong> {diagrams[currentImageIndex].port}</p>
+                                <p><strong>User Name:</strong> {diagrams[currentImageIndex].user}</p>
+                                <p><strong>Database Name:</strong> {diagrams[currentImageIndex].dbName}</p>
+                                <p><strong>Database Type:</strong> {diagrams[currentImageIndex].tipoBaseDatos}</p>
+                            </div>
+                        </>
+                    )}
+                </div>
                 <div className='diagram-placeholder'>
-                    {imageUrls.length > 0 ? (
+                    {diagrams.length > 0 ? (
                         <>
                             {/* Mostrar la imagen actual */}
-                            <img src={imageUrls[currentImageIndex]} alt="Generated diagram" />
+                            <img src={diagrams[currentImageIndex].imageUrl} alt="Generated diagram" />
                         </>
                     ) : (
-                        <p>No se ha generado ningún diagrama aún.</p>
+                        <p>A diagram hasn't been gererated yet.</p>
                     )}
-                     {/* Botones de navegación */}
+                    {/* Botones de navegación */}
                     <div className='nav-buttons'>
                         <button onClick={handlePreviousImage} disabled={currentImageIndex === 0}>
                             ⬅️ Previous
                         </button>
-                        <button onClick={handleNextImage} disabled={currentImageIndex === imageUrls.length - 1}>
+                        <button onClick={handleNextImage} disabled={currentImageIndex === diagrams.length - 1}>
                             Next ➡️
                         </button>
                     </div>
